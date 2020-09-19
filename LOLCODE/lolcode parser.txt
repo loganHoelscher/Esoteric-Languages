@@ -1,0 +1,69 @@
+/* Jison LOLCODE parser for basic mathematical expressions. */
+/* Logan Hoelscher September 2020 */
+
+/* lexical grammar */
+%lex
+%%
+
+[^\S]+              /* ignore whitespace */
+[0-9]+("."[0-9]+)?\b  return 'NUMBER'
+"I"                   return 'I'
+"HAZ"                 return 'HAZ'
+"A"                   return 'A'
+"VAR"                 return 'VAR'
+"R"                   return 'R'
+"ITZ"                 return 'ITZ'
+"AN"                  return 'AN'
+"OF"                  return 'OF'      
+"PRODUKT"             return 'PRODUKT'
+"QUOSHUNT"            return 'QUOSHUNT'
+"DIFF"                return 'DIFF'
+"SUM"                 return 'SUM'
+"MOD"                 return 'MOD'
+"BIGGR"               return 'BIGGR'
+"SMALLR"              return 'SMALLR'
+<<EOF>>               return 'EOF'
+.                     return 'INVALID'
+
+/lex
+
+/* operator associations and precedence */
+
+%left '+' '-'
+%left '*' '/'
+%left '^'
+%left UMINUS
+
+%start expressions
+
+%% /* language grammar */
+
+expressions
+: e EOF
+   {return $1}
+
+;
+
+e
+    :'SUM''OF' e 'AN' e 
+        {$$ = $3 + $5;}
+    |'DIFF''OF' e 'AN' e 
+        {$$ = $3 - $5;}
+    |'PRODUKT''OF' e 'AN' e
+        {$$ = $3 * $5;}
+    | 'QUOSHUNT''OF' e 'AN' e
+        {$$ = $3 / $5;}
+    | 'MOD''OF' e 'AN' e
+        {$$ = $3 % $5;}
+    | 'BIGGR''OF' e 'AN' e
+        {$$ = $3>$5 ? $3 : $5;}
+    | 'SMALLR''OF' e 'AN' e
+        {$$ = $3<$5 ? $3: $5;}
+    | 'I' 'HAZ' 'A' 'VAR' 'ITZ' e
+        {$$ = $6;}
+    | 'VAR' 'R' e
+        {$$ = $3 }
+    | NUMBER
+        {$$ = Number(yytext);}
+    
+    ;
