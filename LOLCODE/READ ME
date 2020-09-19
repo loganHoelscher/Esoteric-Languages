@@ -1,0 +1,25 @@
+*************** READ ME ******************
+
+This is a parser built with Jison. The
+parser recognizes basic LOLCODE instructions
+for performing mathimatical operations. 
+
+Syntax for math operations:
+
+SUM OF x AN y                 (+)
+DIFF OF x AN y                (-)
+PRODUKT OF x AN y             (*)
+QUOSHUNT OF x AN y            (/)
+MOD OF x AN y                 (%)
+BIGGR OF x AN y               (max)
+SMALLR OF x AN y              (min)
+
+
+Syntax for varibale declaration:
+
+I HAZ A VAR ITZ x
+VAR R x
+
+
+End of file:
+KTHXBYE
